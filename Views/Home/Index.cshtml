@@ -85,11 +85,11 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Bound(note => note.emaddr).Width(75).Title("CaseID").Sortable(true).Filterable(true);
+                columns.Bound(note => note.emaddr).Width(75).Title("CaseID").Width(65);
                 columns.Bound(note => note.edate).Format("{0:MM/dd/yyyy}").Width(115).Title("Date");
                 columns.Bound(note => note.etitle).Width(125).Title("Title").Editable("DeanNotesEditable");
                 columns.Bound(note => note.enotes).Title("Notes").Editable("DeanNotesEditable");
-                columns.Bound(note => note.adlogin).Width(75).Title("DeanID").Sortable(true).Filterable(true);
+                columns.Bound(note => note.adlogin).Width(75).Title("DeanID");
                 columns.Bound(note => note.nid).Hidden();
                 columns.Bound(note => note.notefile).Hidden();
                 columns.Command(commands =>
@@ -114,6 +114,7 @@
                 .Read(read=>read.Action("Notes_Read", "Grid"))
                 .Update(update=>update.Action("Notes_Update", "Grid"))
                 .Destroy(destroy=>destroy.Action("Notes_Destroy", "Grid"))
+                .Events(ev=>ev.Error("onError"))
             )
             .Selectable()
             .Pageable()
@@ -127,12 +128,35 @@
 
 <script>    
     function DeanNotesEditable(note) {
-		
-        const dean = note.adlogin;
+	    const dean = note.adlogin;
         const user = "cxd450";
         console.log("Dean:  " + dean);
 		console.log("User:  " + user);
 	    return dean === user;
     }
+
+    function onCreating(note){}
+
+    //edit: function(e) {
+    //    if (e.model.isNew() && !e.model.dirty) {
+    //        var container = e.container;
+    //        container.css("background-color", "#90EE90");
+    //        container.find("input[name=name]").val("Crys").change();
+    //    } else {
+    //        var container = e.container;
+    //        container.css("background-color", "#90EE90");
+    //    }
+    //}
+
+    function onError(e) {
+        console.log(e.status);
+    }
 </script>
 
+
+@*<td class="k-edit-cell" role="gridcell" data-role="editable">
+    <span class="k-input k-textbox k-input-solid k-input-md k-rounded-md k-valid" style=""><input id="emaddr" name="emaddr" data-role="textbox" aria-disabled="false" class="k-input-inner" autocomplete="off" data-bind="value:emaddr" style="width: 100%;"></span>
+    <script>
+        kendo.syncReady(function () { jQuery("#emaddr").kendoTextBox({}); });
+    </script><span class="field-validation-valid k-hidden" data-valmsg-for="emaddr" data-valmsg-replace="true"></span>
+</td>*@

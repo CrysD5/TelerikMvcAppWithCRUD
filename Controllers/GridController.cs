@@ -13,8 +13,8 @@ namespace TelerikMvcAppWithCRUD.Controllers
 	public partial class GridController : Controller
     {
         private readonly NorthwindEntities _nwEnt = new NorthwindEntities();
-        private static bool UpdateDatabase = false;
-        public ActionResult Notes_Read(int nid, [DataSourceRequest] DataSourceRequest request)
+       
+        public ActionResult Notes_Read( [DataSourceRequest] DataSourceRequest request)
         {
             var result = _nwEnt.AdvisoryNotes.Select(n => new AdvisoryNotesViewModel()
             {
@@ -28,11 +28,12 @@ namespace TelerikMvcAppWithCRUD.Controllers
             });
             return Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
-
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Notes_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")] IEnumerable<AdvisoryNotesViewModel> notes)
         {
             var entities = new List<AdvisoryNote>();
+            //var emaddr = Session[""]
             if (!ModelState.IsValid)
                 return Json(entities.ToDataSourceResult(request, ModelState, note => new AdvisoryNotesViewModel
                 {
@@ -181,7 +182,7 @@ namespace TelerikMvcAppWithCRUD.Controllers
             }));
         }
 
-        public void UpdateNotes()
+        //public void UpdateNotes()
 
 
 
